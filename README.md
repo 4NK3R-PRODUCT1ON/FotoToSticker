@@ -2,6 +2,13 @@
  
 # Whatsapp Bot - sticker creator
 
+<h4 align="center">
+    🔰HELLO ANKER LOVERS🔰
+</h4>
+
+<h4 align="center">
+<a href="#"><img title="Author by LOL~ANKER" src="https://img.shields.io/badge/AUTHOR%20BY-LOL~%20ANKER-yellow?colorA=%23ff0000&colorB=%23FFFF00&style=for-the-badge"></a> 
+<h4 align="center">
 <details>
  <summary>🥟 Help me!</summary>
 
