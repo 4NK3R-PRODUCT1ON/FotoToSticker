@@ -263,21 +263,35 @@ module.exports = msgHandler = async (client, message) => {
             client.sendText(from, text)
             break
        case 'quotemaker':
-            const qmaker = body.trim().split('|')
-            if (qmaker.length >= 3) {
-                const quotes = qmaker[1]
-                const author = qmaker[2]
-                const theme = qmaker[3]
-                client.reply(from, 'Proses kak..', id)
-                try {
-                    const hasilqmaker = await images.quote(quotes, author, theme)
-                    client.sendFileFromUrl(from, `${hasilqmaker}`, '', 'Ini kak..', id)
-                } catch {
-                    client.reply('Yahh proses gagal, kakak isinya sudah benar belum?..', id)
-                }
+            
+            arg = body.trim().split('|')
+
+            if (arg.length >= 4) {
+
+                client.reply(from, mess.wait, id)
+
+                const quotes = encodeURIComponent(arg[1])
+
+                const author = encodeURIComponent(arg[2])
+
+                const theme = encodeURIComponent(arg[3])
+
+                await quotemaker(quotes, author, theme).then(amsu => {
+
+                    client.sendFile(from, amsu, 'quotesmaker.jpg','neh...').catch(() => {
+
+                       client.reply(from, mess.error.Qm, id)
+
+                    })
+
+                })
+
             } else {
-                client.reply(from, `Pemakaian ${prefix}quotemaker |isi quote|author|theme\n\ncontoh: ${prefix}quotemaker |aku sayang kamu|bot|random\n\nuntuk theme nya pakai random ya kak..`)
+
+                client.reply(from, 'Usage: \n#quotemaker |teks|watermark|theme\n\nEx :\n#quotemaker |ini contoh|bicit|random', id)
+
             }
+
             break
         // Group Commands (group admin only)
         case 'kick':
