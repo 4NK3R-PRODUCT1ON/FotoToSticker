@@ -262,13 +262,14 @@ module.exports = msgHandler = async (client, message) => {
             const text = `*CEK LOKASI PENYEBARAN COVID-19*\nHasil pemeriksaan dari lokasi yang anda kirim adalah *${zoneStatus.status}* ${zoneStatus.optional}\n\nInformasi lokasi terdampak disekitar anda:\n${data}`
             client.sendText(from, text)
             break
-       case 'quotemaker':
+       case 'quotmak':
+         case 'quotemaker':
             const qmaker = body.trim().split('|')
             if (qmaker.length >= 3) {
                 const quotes = qmaker[1]
                 const author = qmaker[2]
                 const theme = qmaker[3]
-                client.reply(from, 'Proses kak..', id)
+                client.reply(from, 'Eror njeng sorry', id)
                 try {
                     const hasilqmaker = await images.quote(quotes, author, theme)
                     client.sendFileFromUrl(from, `${hasilqmaker}`, '', 'Ini kak..', id)
@@ -276,9 +277,79 @@ module.exports = msgHandler = async (client, message) => {
                     client.reply('Yahh proses gagal, kakak isinya sudah benar belum?..', id)
                 }
             } else {
-                client.reply(from, `Pemakaian ${prefix}quotemaker |isi quote|author|theme\n\ncontoh: ${prefix}quotemaker |aku sayang kamu|-aruga|random\n\nuntuk theme nya pakai random ya kak..`)
+                client.reply(from, `Pemakaian ${prefix}quotemaker |isi quote|author|theme\n\ncontoh: ${prefix}quotemaker |aku sayang kamu|-bott|random\n\nuntuk theme nya pakai random ya kak..`)
             }
             break
+                case 'nuls':
+                case 'nulis':
+            if (args.length == 0) return client.reply(from, `Membuat bot menulis teks yang dikirim menjadi gambar\nPemakaian: ${prefix}nulis [teks]\n\ncontoh: ${prefix}nulis i love you 3000`, id)
+            const nulisq = body.slice(7)
+            const nulisp = await rugaapi.tulis(nulisq)
+            await client.sendImage(from, `${nulisp}`, '', 'Nih...', id)
+            .catch(() => {
+                client.reply(from, 'Ada yang eror!', id)
+            }
+            break
+                   case 'daftarsurah':
+                   case 'listsurah':
+            try {
+                axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
+                .then((response) => {
+                    let hehex = '╔══✪〘 List Surah 〙✪══\n'
+                    for (let i = 0; i < response.data.data.length; i++) {
+                        hehex += '╠➥ '
+                        hehex += response.data.data[i].name.transliteration.id.toLowerCase() + '\n'
+                            }
+                        hehex += '╚═〘 *A R U G A  B O T* 〙'
+                    client.reply(from, hehex, id)
+                })
+            } catch(err) {
+                client.reply(from, err, id)
+            }
+            break
+        case 'tentangsurah':
+        case 'infosurah':
+            if (args.length == 0) return clieclientnt.reply(from, `*_${prefix}infosurah <nama surah>_*\nMenampilkan informasi lengkap mengenai surah tertentu. Contoh penggunan: ${prefix}infosurah al-baqarah`, message.id)
+                var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
+                var { data } = responseh.data
+                var idx = data.findIndex(function(post, index) {
+                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
+                    return true;
+                });
+                var pesan = ""
+                pesan = pesan + "Nama : "+ data[idx].name.transliteration.id + "\n" + "Asma : " +data[idx].name.short+"\n"+"Arti : "+data[idx].name.translation.id+"\n"+"Jumlah ayat : "+data[idx].numberOfVerses+"\n"+"Nomor surah : "+data[idx].number+"\n"+"Jenis : "+data[idx].revelation.id+"\n"+"Keterangan : "+data[idx].tafsir.id
+                client.reply(from, pesan, message.id)
+              break
+        case 'surahquran':
+        case 'surah':
+            if (args.length == 0) return client.reply(from, `*_${prefix}surah <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1\n\n*_${prefix}surah <nama surah> <ayat> en/id_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Inggris / Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1 id`, message.id)
+                var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
+                var { data } = responseh.data
+                var idx = data.findIndex(function(post, index) {
+                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
+                    return true;
+                });
+                nmr = data[idx].number
+                if(!isNaN(nmr)) {
+                  var responseh2 = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+args[1])
+                  var {data} = responseh2.data
+                  var last = function last(array, n) {
+                    if (array == null) return void 0;
+                    if (n == null) return array[array.length - 1];
+                    return array.slice(Math.max(array.length - n, 0));
+                  };
+                  bhs = last(args)
+                  pesan = ""
+                  pesan = pesan + data.text.arab + "\n\n"
+                  if(bhs == "en") {
+                    pesan = pesan + data.translation.en
+                  } else {
+                    pesan = pesan + data.translation.id
+                  }
+                  pesan = pesan + "\n\n(Q.S. "+data.surah.name.transliteration.id+":"+args[1]+")"
+                  client.reply(from, pesan, message.id)
+                }
+              break
         // Group Commands (group admin only)
         case 'kick':
             if (!isGroupMsg) return client.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup! [Group Only]', id)
