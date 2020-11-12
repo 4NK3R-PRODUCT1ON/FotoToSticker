@@ -263,7 +263,7 @@ module.exports = msgHandler = async (client, message) => {
             client.sendText(from, text)
             break
        case 'quotmak':
-         case '!quotemaker':
+         case 'quotemaker':
 
             arg = body.trim().split('|')
 
