@@ -263,35 +263,21 @@ module.exports = msgHandler = async (client, message) => {
             client.sendText(from, text)
             break
        case 'quotemaker':
-            
             arg = body.trim().split('|')
-
-            if (arg.length >= 4) {
-
-                client.reply(from, mess.wait, id)
-
-                const quotes = encodeURIComponent(arg[1])
-
-                const author = encodeURIComponent(arg[2])
-
-                const theme = encodeURIComponent(arg[3])
-
-                await quotemaker(quotes, author, theme).then(amsu => {
-
-                    client.sendFile(from, amsu, 'quotesmaker.jpg','neh...').catch(() => {
-
-                       client.reply(from, mess.error.Qm, id)
-
-                    })
-
-                })
-
-            } else {
-
-                client.reply(from, 'Usage: \n#quotemaker |teks|watermark|theme\n\nEx :\n#quotemaker |ini contoh|bicit|random', id)
-
+            if (arg.length >= 3) {
+            client.reply(from, 'Processing...', message.id) 
+            const quotes = arg[1]
+            const author = arg[2]
+            const theme = arg[3]
+            try {
+            const resolt = await quotemaker(quotes, author, theme)
+            client.sendFile(from, resolt, 'quotesmaker.jpg','...')
+            } catch {
+            client.reply(from, 'It looks like that the image failed to process', message.id)
             }
-
+            } else {
+            client.reply(from, 'Usage: \n#quotemaker | quote | author', message.id)
+            }
             break
         // Group Commands (group admin only)
         case 'kick':
