@@ -82,19 +82,16 @@ Menampilkan Syarat dan Kondisi Bot.
 6. *#donasi*
 menampilkan informasi donasi.
 
-7. *#quotmak*
-membuat foto dengan quote maker
-
-8. *#nuls*
+7. *#nuls*
 membuat teks yang di kirim menjadi foto
 
-9. *#daftarsurah*
+8. *#daftarsurah*
 untuk melihat list surah alquran
 
-10. *#tentangsurah*
+9. *#tentangsurah*
 untuk melihat info surah alquran
 
-11. *#surahquran*
+10. *#surahquran*
 untuk melihat surah alquran
 
 
