@@ -262,40 +262,8 @@ module.exports = msgHandler = async (client, message) => {
             const text = `*CEK LOKASI PENYEBARAN COVID-19*\nHasil pemeriksaan dari lokasi yang anda kirim adalah *${zoneStatus.status}* ${zoneStatus.optional}\n\nInformasi lokasi terdampak disekitar anda:\n${data}`
             client.sendText(from, text)
             break
-       case 'quotmak':
-         case 'quotemaker':
 
-            arg = body.trim().split('|')
-
-            if (arg.length >= 4) {
-
-                client.reply(from, mess.wait, id)
-
-                const quotes = encodeURIComponent(arg[1])
-
-                const author = encodeURIComponent(arg[2])
-
-                const theme = encodeURIComponent(arg[3])
-
-                await quotemaker(quotes, author, theme).then(amsu => {
-
-                    client.sendFile(from, amsu, 'quotesmaker.jpg','neh...').catch(() => {
-
-                       client.reply(from, mess.error.Qm, id)
-
-                    })
-
-                })
-
-            } else {
-
-                client.reply(from, 'Usage: \n!quotemaker |teks|watermark|theme\n\nEx :\n!quotemaker |ini contoh|bicit|random', id)
-
-            }
-
-            break
                 case 'nuls':
-                case 'nulis':
             if (args.length == 0) return client.reply(from, `Membuat bot menulis teks yang dikirim menjadi gambar\nPemakaian: ${prefix}nulis [teks]\n\ncontoh: ${prefix}nulis i love you 3000`, id)
             const nulisq = body.slice(7)
             const nulisp = await rugaapi.tulis(nulisq)
@@ -305,7 +273,6 @@ module.exports = msgHandler = async (client, message) => {
             }
             break
                    case 'daftarsurah':
-                   case 'listsurah':
             try {
                 axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
                 .then((response) => {
@@ -322,7 +289,6 @@ module.exports = msgHandler = async (client, message) => {
             }
             break
         case 'tentangsurah':
-        case 'infosurah':
             if (args.length == 0) return clieclientnt.reply(from, `*_${prefix}infosurah <nama surah>_*\nMenampilkan informasi lengkap mengenai surah tertentu. Contoh penggunan: ${prefix}infosurah al-baqarah`, message.id)
                 var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
                 var { data } = responseh.data
@@ -335,7 +301,6 @@ module.exports = msgHandler = async (client, message) => {
                 client.reply(from, pesan, message.id)
               break
         case 'surahquran':
-        case 'surah':
             if (args.length == 0) return client.reply(from, `*_${prefix}surah <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1\n\n*_${prefix}surah <nama surah> <ayat> en/id_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Inggris / Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1 id`, message.id)
                 var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
                 var { data } = responseh.data
